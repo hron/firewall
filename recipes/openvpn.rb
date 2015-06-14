@@ -11,3 +11,11 @@ end
 #   action [:allow]
 # end
 shell_out!('ufw route allow in on tun0 out on eth0')
+
+template '/etc/openvpn/server.up.d/forwarding.sh' do
+  source 'forwarding.sh.erb'
+  owner 'root'
+  group 'root'
+  mode  '0755'
+  notifies :restart, 'service[openvpn]'
+end
