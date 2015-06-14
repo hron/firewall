@@ -5,3 +5,7 @@ firewall_rule 'allow world to openvpn' do
   action [:allow]
 end
 
+firewall_rule 'allow vpn clients to access world' do
+  interface 'tun0'
+  action [:allow]
+end
