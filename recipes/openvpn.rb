@@ -12,6 +12,13 @@ end
 # end
 shell_out!('ufw route allow in on tun0 out on eth0')
 
+firewall_rule 'allow sisyphus ssh' do
+  port 8022
+  protocol :tcp
+  source '0.0.0.0/0'
+  action [:allow]
+end
+
 template '/etc/openvpn/server.up.d/forwarding.sh' do
   source 'forwarding.sh.erb'
   owner 'root'
@@ -19,3 +26,4 @@ template '/etc/openvpn/server.up.d/forwarding.sh' do
   mode  '0755'
   notifies :restart, 'service[openvpn]'
 end
+
