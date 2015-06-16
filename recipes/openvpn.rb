@@ -11,6 +11,7 @@ end
 #   action [:allow]
 # end
 shell_out!('ufw route allow in on tun0 out on eth0')
+shell_out!('ufw route allow in on eth0 out on tun0')
 
 firewall_rule 'allow sisyphus ssh' do
   port 8022

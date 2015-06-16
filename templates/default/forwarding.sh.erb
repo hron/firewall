@@ -1,3 +1,7 @@
-/sbin/iptables -t nat -A POSTROUTING -s <%= node['openvpn']['subnet'] %>/<%= node['openvpn']['netmask'] %> -o <%= node['network']['default_interface'] %> -j MASQUERADE
+/sbin/iptables -t nat -A POSTROUTING -p tcp --dport 8022 -j SNAT --to-source 10.8.0.1
 /sbin/iptables -t nat -A PREROUTING -p tcp --dport 8022 -j DNAT --to-destination 10.8.0.6
 
+/sbin/iptables -t nat -A POSTROUTING -p tcp -m multiport --dports 6881,6882,6883,6884,6885,6886,6887,6888,6889 -j SNAT --to-source 10.8.0.1
+/sbin/iptables -t nat -A PREROUTING -p tcp -m multiport --dports 6881,6882,6883,6884,6885,6886,6887,6888,6889 -j DNAT --to-destination 10.8.0.6
+
+/sbin/iptables -t nat -A POSTROUTING -s <%= node['openvpn']['subnet'] %>/<%= node['openvpn']['netmask'] %> -o <%= node['network']['default_interface'] %> -j MASQUERADE
